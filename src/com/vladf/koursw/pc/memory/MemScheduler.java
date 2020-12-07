@@ -1,7 +1,7 @@
 package com.vladf.koursw.pc.memory;
 
 
-import com.vladf.koursw.pc.System;
+import com.vladf.koursw.pc.Configuration;
 import com.vladf.koursw.process.Process;
 
 import java.util.ArrayList;
@@ -17,17 +17,17 @@ public static int SearchMB(int size)
         if (memoryBlocks.get(i + 1).start - memoryBlocks.get(i).end >= size+1)
             return memoryBlocks.get(i).end + 1;
     }
-    if(System.memory - memoryBlocks.get(memoryBlocks.size()-1).end>=size+1)
+    if(Configuration.memory - memoryBlocks.get(memoryBlocks.size()-1).end>=size+1)
         return memoryBlocks.get(memoryBlocks.size()-1).end+1;
     else
-        return System.memory;
+        return Configuration.memory;
 }
 
 public static boolean fillMB(com.vladf.koursw.process.Process process)
 {
     int _start = SearchMB(process.getMemory());
 
-    if (_start!=System.memory)
+    if (_start!= Configuration.memory)
     {
         memoryBlocks.add(new MemoryBlock(_start, _start+process.getMemory(),process));
         return true;
@@ -43,10 +43,6 @@ public static void releaseMB(Process process)
 
 public static void add(MemoryBlock memoryBlock) {
     memoryBlocks.add(memoryBlock);
-}
-
-public static void print() {
-    java.lang.System.out.println(memoryBlocks.toString());
 }
 
     @Override

@@ -1,6 +1,6 @@
 package com.vladf.koursw.process;
 
-import com.vladf.koursw.pc.System;
+import com.vladf.koursw.pc.Configuration;
 import com.vladf.koursw.pc.memory.MemScheduler;
 import com.vladf.koursw.utils.ticker.Ticker;
 
@@ -40,7 +40,7 @@ public class Queue {
     public void cancelOutdated()
     {
             for (int i=queue.size()-1; i>=0;i--)
-                if (Ticker.getTick() >= queue.get(i).getTimeIn() * System.PRmMultiplier)
+                if (Ticker.getTick() >= queue.get(i).getTimeIn() * Configuration.PRmMultiplier)
                     cancelProcess(queue.get(i));
     }
 

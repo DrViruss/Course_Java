@@ -1,6 +1,6 @@
 package com.vladf.koursw.process;
 
-import com.vladf.koursw.pc.System;
+import com.vladf.koursw.pc.Configuration;
 import com.vladf.koursw.utils.ticker.Ticker;
 import com.vladf.koursw.utils.Randomize;
 
@@ -19,9 +19,9 @@ public class Process {
     public Process(int id) {
         this.id = id;
         this.name = "P_"+this.id+"_"+ Randomize.getRandString(Randomize.getRandInt(2,7));
-        this.memory = Randomize.getRandInt(System.minValue, System.memory/2);
-        this.priority= Randomize.getRandInt(System.maxPriority);
-        this.tickWorks = Randomize.getRandInt(System.minValue,System.minValue*10);
+        this.memory = Randomize.getRandInt(Configuration.minValue, Configuration.memory/2);
+        this.priority= Randomize.getRandInt(Configuration.maxPriority);
+        this.tickWorks = Randomize.getRandInt(Configuration.minValue, Configuration.minValue*10);
         this.timeIn = Ticker.getTick();
         this.bursTime=0;
         this.status = Status.Ready;

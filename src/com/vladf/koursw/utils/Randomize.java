@@ -1,6 +1,6 @@
 package com.vladf.koursw.utils;
 
-import com.vladf.koursw.pc.System;
+import com.vladf.koursw.pc.Configuration;
 
 import java.util.Random;
 
@@ -26,12 +26,12 @@ public class Randomize {
 
     public static boolean getRandBool(int chanse)
     {
-        return getRandInt(System.minValue)%(chanse/*/100*/) == 0;
+        return getRandInt(Configuration.minValue)%(chanse/*/100*/) == 0;
     }
 
     public static boolean getRandBool()
     {
-        return getRandInt(System.minValue)%2 == 0;
+        return getRandInt(Configuration.minValue)%2 == 0;
     }
 
 }

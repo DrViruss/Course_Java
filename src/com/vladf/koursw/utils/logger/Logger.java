@@ -1,6 +1,6 @@
 package com.vladf.koursw.utils.logger;
 
-import com.vladf.koursw.pc.System;
+import com.vladf.koursw.pc.Configuration;
 import com.vladf.koursw.utils.ticker.TickListener;
 import com.vladf.koursw.utils.ticker.Ticker;
 
@@ -15,7 +15,7 @@ public class Logger implements TickListener {
 
     @Override
     public void tickEvent() {
-        if(Ticker.getTick()% System.tickIncrement*System.logDelay==0)
+        if(Ticker.getTick()% Configuration.tickIncrement* Configuration.logDelay==0)
         {
             java.lang.System.out.println(message+Ticker.getTick()+'\n'+"Something interesting...");
         }

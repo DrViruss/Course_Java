@@ -21,7 +21,7 @@ public class Scheduler implements TickListener {
 
     public Scheduler() {
         this.queue = new Queue();
-        this.cpu = new CPU(System.coreCount);
+        this.cpu = new CPU(Configuration.coreCount);
         this.memScheduler = new MemScheduler();
         this.ticker = new Ticker();
 
@@ -41,12 +41,13 @@ public class Scheduler implements TickListener {
         MemScheduler.add(new MemoryBlock(0,100,null));
 
                     /*Some Processes*/
-        this.queue.Add(System.initPCount);
+        this.queue.Add(Configuration.initPCount);
     }
 
     private void addJob()
     {
-        this.queue.Add(Randomize.getRandInt(System.minValue));
+        if(Randomize.getRandBool(Configuration.getRandBoolEveryTick))
+            this.queue.Add(Randomize.getRandInt(Configuration.minValue));
     }
 
 
@@ -60,27 +61,33 @@ public class Scheduler implements TickListener {
         doneProcesses.add(process);
     }
 
+    private void clearOutdated()
+    {
+        if(Ticker.getTick()% Configuration.clearOutdatedTimer==0)
+            queue.cancelOutdated();
+    }
+
+    private void setJobToCPU()
+    {
+        for (int i = 0; i< Configuration.coreCount; i++) {
+            int _tmpInt = cpu.getFreeCore();
+            if (_tmpInt >= 0) {
+                cpu.setCoreJob(_tmpInt, queue.getNextProcess());
+            }
+        }
+    }
 
 
 
 
     @Override
     public void tickEvent() {
-        /*Remove outdated processes*/
-        if(Ticker.getTick()%2==0)
-        queue.cancelOutdated();
-
-
+            /*Remove outdated processes*/
+        clearOutdated();
                 /*CPUs will roll!*/
-        for (int i=0; i<System.coreCount;i++) {
-            int _tmpInt = cpu.getFreeCore();
-            if (_tmpInt >= 0) {
-                cpu.setCoreJob(_tmpInt, queue.getNextProcess());
-            }
-        }
+        setJobToCPU();
                     /*Lazy Memory fix*/
-        if(Randomize.getRandBool(4))
-            addJob();
+        addJob();
 
         Logger.print(toString());
 

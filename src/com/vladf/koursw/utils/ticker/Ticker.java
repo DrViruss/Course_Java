@@ -1,6 +1,6 @@
 package com.vladf.koursw.utils.ticker;
 
-import com.vladf.koursw.pc.System;
+import com.vladf.koursw.pc.Configuration;
 
 import java.util.ArrayList;
 import java.util.TimerTask;
@@ -26,7 +26,7 @@ public class Ticker  extends TimerTask {
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-            TickUP(System.tickIncrement);
+            TickUP(Configuration.tickIncrement);
 
             for(TickListener listener : listenersList)
                 listener.tickEvent();
