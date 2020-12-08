@@ -7,27 +7,41 @@ import com.vladf.koursw.utils.ticker.Ticker;
 import java.util.ArrayList;
 
 public class Queue {
-    private ArrayList<Process> queue;
-    private ArrayList<Process> rejectedQueue;
+    private final ArrayList<Process> queue;
+    private final ArrayList<Process> rejectedQueue;
     private int PID;
 
-    public Queue() {
+    public Queue()
+    {
         this.queue = new ArrayList<>();
         this.rejectedQueue = new ArrayList<>();
         this.PID=1;
     }
+
     public void Add(final int PCount)
     {
         for (int i = 0; i < PCount; i++) {
             Process p = new Process(this.PID);
             this.PID++;
-            if(MemScheduler.fillMB(p)) {
-                this.queue.add(p);
-            }
-            else {
+            addProcess(p);
+        }
+    }
+
+    public void addProcess(Process p)
+    {
+        if (p.getStatus() == Status.Waiting)
+            p.setBursTime(p.getBursTime()+(int)(p.getBursTime()/Configuration.ZombieDiv));
+
+        if(MemScheduler.fillMB(p)) {
+            this.queue.add(p);
+        }
+        else {
+            if (p.getStatus() == Status.Waiting)
                 p.setStatus(Status.Canceled);
-                rejectedQueue.add(p);
-            }
+            else
+                p.setStatus(Status.Rejected);
+
+            rejectedQueue.add(p);
         }
     }
 
@@ -52,9 +66,6 @@ public class Queue {
     }
 
 
-    public int getPID() {
-        return PID;
-    }
     public Process getNextProcess() {
         queue.sort(Process.byTime);
         if(queue.size()!=0) {

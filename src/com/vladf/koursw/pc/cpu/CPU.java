@@ -56,7 +56,6 @@ public int getFreeCore()
 
                 _tmProcess.setBursTime(_tmProcess.getBursTime() + 1);
                 if (_tmProcess.getBursTime() == _tmProcess.getTickWorks()) {
-                    core.currentProcess.setStatus(Status.Finished);
                     Scheduler.PDone(core.currentProcess);
                     core.currentProcess = null;
                     core.isFree = true;

@@ -13,12 +13,12 @@ public class Process {
     private Status status;    //rand + on work
     private int tickWorks;       //rand
     private int memory;     //rand
-    private int timeIn;     //after create
+    private final int timeIn;     //after create
     private int bursTime;   //on work
 
     public Process(int id) {
         this.id = id;
-        this.name = "P_"+this.id+"_"+ Randomize.getRandString(Randomize.getRandInt(2,7));
+        this.name = "P_"+this.id+"_"+ Randomize.getRandString(Randomize.getRandInt(Configuration.minProcName,Configuration.maxProcName));
         this.memory = Randomize.getRandInt(Configuration.minValue, Configuration.memory/2);
         this.priority= Randomize.getRandInt(Configuration.maxPriority);
         this.tickWorks = Randomize.getRandInt(Configuration.minValue, Configuration.minValue*10);
@@ -53,6 +53,8 @@ public class Process {
     public int getBursTime() {
         return bursTime;
     }
+
+    public Status getStatus(){return status;}
 
 
     public static Comparator<Process> byTime = Comparator.comparingInt(o -> o.tickWorks);

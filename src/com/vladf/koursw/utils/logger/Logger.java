@@ -6,18 +6,20 @@ import com.vladf.koursw.utils.ticker.Ticker;
 
 public class Logger implements TickListener {
 
-    private static String message = "Logger:\nCurrent tick=";
+    private static final String info = "Logger:\nCurrent tick=";
+    private static String msg="";
 
     public static void print(String _s)
     {
-        java.lang.System.out.println(message+Ticker.getTick()+'\n' + _s);
+        msg+=_s+"\n";
     }
 
     @Override
     public void tickEvent() {
         if(Ticker.getTick()% Configuration.tickIncrement* Configuration.logDelay==0)
         {
-            java.lang.System.out.println(message+Ticker.getTick()+'\n'+"Something interesting...");
+            java.lang.System.out.println(info +Ticker.getTick()+'\n'+msg);
+            msg = "";
         }
     }
 }

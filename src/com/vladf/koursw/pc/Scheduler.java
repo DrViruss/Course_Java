@@ -5,6 +5,7 @@ import com.vladf.koursw.pc.memory.MemScheduler;
 import com.vladf.koursw.pc.memory.MemoryBlock;
 import com.vladf.koursw.process.Process;
 import com.vladf.koursw.process.Queue;
+import com.vladf.koursw.process.Status;
 import com.vladf.koursw.utils.Randomize;
 import com.vladf.koursw.utils.logger.Logger;
 import com.vladf.koursw.utils.ticker.Ticker;
@@ -13,20 +14,26 @@ import com.vladf.koursw.utils.ticker.TickListener;
 import java.util.ArrayList;
 
 public class Scheduler implements TickListener {
-    static ArrayList<Process> doneProcesses = new ArrayList<>();
-    Queue queue;
+    static ArrayList<Process> doneProcesses;
+    static Queue queue;
+
     CPU cpu;
     MemScheduler memScheduler;
     Ticker ticker;
 
     public Scheduler() {
-        this.queue = new Queue();
+        queue = new Queue();
+        doneProcesses = new ArrayList<>();
+
         this.cpu = new CPU(Configuration.coreCount);
         this.memScheduler = new MemScheduler();
         this.ticker = new Ticker();
 
-        this.ticker.addListener(this);
+        if(Configuration.logger)
+            this.ticker.addListener(new Logger());
+
         this.ticker.addListener(cpu);
+        this.ticker.addListener(this);
     }
 
     public void Start()
@@ -41,13 +48,13 @@ public class Scheduler implements TickListener {
         MemScheduler.add(new MemoryBlock(0,100,null));
 
                     /*Some Processes*/
-        this.queue.Add(Configuration.initPCount);
+        queue.Add(Configuration.initPCount);
     }
 
     private void addJob()
     {
         if(Randomize.getRandBool(Configuration.getRandBoolEveryTick))
-            this.queue.Add(Randomize.getRandInt(Configuration.minValue));
+            queue.Add(Randomize.getRandInt(Configuration.minValue));
     }
 
 
@@ -58,12 +65,20 @@ public class Scheduler implements TickListener {
 
     public static void PDone(Process process)
     {
-        doneProcesses.add(process);
+        if(Randomize.getRandBool()) {
+            process.setStatus(Status.Finished);
+            doneProcesses.add(process);
+        }
+        else
+        {
+            process.setStatus(Status.Waiting);
+            queue.addProcess(process);
+        }
     }
 
     private void clearOutdated()
     {
-        if(Ticker.getTick()% Configuration.clearOutdatedTimer==0)
+        if(Ticker.getTick()% Configuration.rmOldPIterator ==0)
             queue.cancelOutdated();
     }
 
@@ -84,9 +99,9 @@ public class Scheduler implements TickListener {
     public void tickEvent() {
             /*Remove outdated processes*/
         clearOutdated();
-                /*CPUs will roll!*/
+            /*CPUs will roll!*/
         setJobToCPU();
-                    /*Lazy Memory fix*/
+            /*Lazy Memory fix*/
         addJob();
 
         Logger.print(toString());
