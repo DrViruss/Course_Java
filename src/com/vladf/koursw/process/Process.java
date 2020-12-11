@@ -19,9 +19,9 @@ public class Process {
     public Process(int id) {
         this.id = id;
         this.name = "P_"+this.id+"_"+ Randomize.getRandString(Randomize.getRandInt(Configuration.minProcName,Configuration.maxProcName));
-        this.memory = Randomize.getRandInt(Configuration.minValue, Configuration.memory/2);
+        this.memory = Randomize.getRandInt(Configuration.minMemsize, Configuration.maxMemsize);
         this.priority= Randomize.getRandInt(Configuration.maxPriority);
-        this.tickWorks = Randomize.getRandInt(Configuration.minValue, Configuration.minValue*10);
+        this.tickWorks = Randomize.getRandInt(Configuration.minTickWork, Configuration.maxTickWork);
         this.timeIn = Ticker.getTick();
         this.bursTime=0;
         this.status = Status.Ready;
@@ -37,6 +37,19 @@ public class Process {
     }
 
     //________Getters________\\
+
+
+    public int getId() {
+        return id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public int getPriority() {
+        return priority;
+    }
 
     public int getTickWorks() {
         return tickWorks;

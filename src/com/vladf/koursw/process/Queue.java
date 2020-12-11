@@ -65,6 +65,13 @@ public class Queue {
         rejectedQueue.add(process);
     }
 
+    public ArrayList<Process> getQueue() {
+        return queue;
+    }
+
+    public ArrayList<Process> getRejectedQueue() {
+        return rejectedQueue;
+    }
 
     public Process getNextProcess() {
         queue.sort(Process.byTime);

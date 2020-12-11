@@ -41,6 +41,10 @@ public static void releaseMB(Process process)
     memoryBlocks.removeIf(mb -> mb.process == process);
 }
 
+public static void clearMem(){
+memoryBlocks.clear();
+}
+
 public static void add(MemoryBlock memoryBlock) {
     memoryBlocks.add(memoryBlock);
 }

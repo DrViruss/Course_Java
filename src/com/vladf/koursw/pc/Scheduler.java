@@ -1,5 +1,6 @@
 package com.vladf.koursw.pc;
 
+import com.vladf.koursw.fx.Main;
 import com.vladf.koursw.pc.cpu.CPU;
 import com.vladf.koursw.pc.memory.MemScheduler;
 import com.vladf.koursw.pc.memory.MemoryBlock;
@@ -21,8 +22,9 @@ public class Scheduler implements TickListener {
     MemScheduler memScheduler;
     Ticker ticker;
 
-    public Scheduler() {
+    public Scheduler(/*Ticker ticker*/) {
         queue = new Queue();
+
         doneProcesses = new ArrayList<>();
 
         this.cpu = new CPU(Configuration.coreCount);
@@ -39,7 +41,7 @@ public class Scheduler implements TickListener {
     public void Start()
     {
         preLaunchInit();
-        ticker.run();
+        this.ticker.run();
     }
 
     private void preLaunchInit()
@@ -53,8 +55,10 @@ public class Scheduler implements TickListener {
 
     private void addJob()
     {
-        if(Randomize.getRandBool(Configuration.getRandBoolEveryTick))
+        if(Randomize.getRandBool(Configuration.getRandBoolEveryTick)) {
             queue.Add(Randomize.getRandInt(Configuration.minValue));
+        }
+        updateTable();
     }
 
 
@@ -78,8 +82,9 @@ public class Scheduler implements TickListener {
 
     private void clearOutdated()
     {
-        if(Ticker.getTick()% Configuration.rmOldPIterator ==0)
+        if(Ticker.getTick()% Configuration.rmOldPIterator ==0) {
             queue.cancelOutdated();
+        }
     }
 
     private void setJobToCPU()
@@ -92,8 +97,8 @@ public class Scheduler implements TickListener {
         }
     }
 
-
-
+    public void updateTable()
+    {Main.controller.updateTable(queue,doneProcesses);}
 
     @Override
     public void tickEvent() {
