@@ -16,7 +16,8 @@ public class CPU implements TickListener
         for(int i = 0; i<number; i++)
             cores[i]=new Core();
     }
-    public Core[] getCores(){return cores;}
+    public Core[] getCores()
+    {return cores;}
 
     @Override
     public String toString() {

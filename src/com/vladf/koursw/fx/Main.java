@@ -22,6 +22,7 @@ public class Main extends Application {
         controller =  loader.getController();
         emuThread = new Thread(new TLauncher());
 
+        stage.setResizable(false);
 
         stage.setTitle("VTaskViewer");
         stage.setScene(new Scene(root, 800, 500));

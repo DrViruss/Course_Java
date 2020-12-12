@@ -72,10 +72,10 @@
    <center>
       <GridPane prefHeight="458.0" prefWidth="356.0" stylesheets="@bootstrap3.css" BorderPane.alignment="CENTER">
         <columnConstraints>
-            <ColumnConstraints hgrow="SOMETIMES" maxWidth="78.0" minWidth="10.0" prefWidth="50.0" />
-            <ColumnConstraints halignment="RIGHT" hgrow="SOMETIMES" maxWidth="84.0" minWidth="0.0" prefWidth="79.0" />
-          <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" maxWidth="114.0" minWidth="10.0" prefWidth="53.0" />
-            <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" maxWidth="84.0" minWidth="10.0" prefWidth="54.0" />
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="78.0" minWidth="1.0" prefWidth="7.0" />
+            <ColumnConstraints halignment="RIGHT" hgrow="SOMETIMES" maxWidth="129.0" minWidth="0.0" prefWidth="123.0" />
+          <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" maxWidth="114.0" minWidth="10.0" prefWidth="51.0" />
+            <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" maxWidth="84.0" minWidth="10.0" prefWidth="35.0" />
         </columnConstraints>
         <rowConstraints>
           <RowConstraints maxHeight="112.0" minHeight="10.0" prefHeight="78.0" vgrow="SOMETIMES" />
@@ -86,7 +86,7 @@
          <children>
             <Label stylesheets="@bootstrap3.css" text="Time:" GridPane.columnIndex="1" />
             <Label fx:id="tickLabel" stylesheets="@bootstrap3.css" text="0" GridPane.columnIndex="2" />
-            <Label stylesheets="@bootstrap3.css" text="Queue:" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+            <Label prefHeight="16.0" prefWidth="106.0" stylesheets="@bootstrap3.css" text="Total P number:" GridPane.columnIndex="1" GridPane.rowIndex="1" />
             <Label stylesheets="@bootstrap3.css" text="Rejected:" GridPane.columnIndex="1" GridPane.rowIndex="2" />
             <Label fx:id="queueLabel" stylesheets="@bootstrap3.css" text="0" GridPane.columnIndex="2" GridPane.rowIndex="1" />
             <Label fx:id="rejectedLabel" stylesheets="@bootstrap3.css" text="0" GridPane.columnIndex="2" GridPane.rowIndex="2" />

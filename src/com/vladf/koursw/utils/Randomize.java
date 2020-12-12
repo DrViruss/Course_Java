@@ -24,14 +24,9 @@ public class Randomize {
         return new String(_tmp);
     }
 
-    public static boolean getRandBool(int chanse)
-    {
-        return getRandInt(Configuration.minValue)%(chanse/*/100*/) == 0;
-    }
-
     public static boolean getRandBool()
     {
-        return getRandInt(Configuration.minValue)%2 == 0;
+        return random.nextBoolean();
     }
 
 }

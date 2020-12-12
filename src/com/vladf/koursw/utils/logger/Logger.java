@@ -16,7 +16,7 @@ public class Logger implements TickListener {
 
     @Override
     public void tickEvent() {
-        if(Ticker.getTick()% Configuration.tickIncrement* Configuration.logDelay==0)
+        if(Ticker.getTick()% Configuration.logDelay==0)
         {
             java.lang.System.out.println(info +Ticker.getTick()+'\n'+msg);
             msg = "";

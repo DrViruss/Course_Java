@@ -2,19 +2,25 @@ package com.vladf.koursw.fx.windows;
 
 import com.vladf.koursw.fx.Main;
 import com.vladf.koursw.fx.TLauncher;
+import com.vladf.koursw.pc.Configuration;
+import com.vladf.koursw.pc.cpu.CPU;
 import com.vladf.koursw.pc.memory.MemScheduler;
 import com.vladf.koursw.process.Process;
 import com.vladf.koursw.process.Queue;
 import com.vladf.koursw.utils.ticker.Ticker;
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.Event;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
-import javafx.scene.control.TabPane;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.stage.Stage;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
 
@@ -22,6 +28,8 @@ public class Controller {
     @FXML
     private void initialize()
     {
+updateCoreTabs();
+
         queueTable.getColumns().setAll(genQTable());
         rejectedTable.getColumns().setAll(genQTable());
         doneTable.getColumns().setAll(genQTable());
@@ -80,22 +88,63 @@ public class Controller {
         return _tmp;
     }
 
-    public void updateTable(Queue q, ArrayList<Process> a)
+
+    public void updateGUI(Queue q, ArrayList<Process> a, int tick, CPU cpu)
     {
         qTableList.setAll(q.getQueue());
         queueTable.setItems(qTableList);
         queueTable.refresh();
 
-
         rTableList.setAll(q.getRejectedQueue());
         dTableList.setAll(a);
-
 
         rejectedTable.setItems(rTableList);
         rejectedTable.refresh();
         doneTable.setItems(dTableList);
         doneTable.refresh();
+
+        for(int i=Configuration.coreCount-1; i>-1 ;i--)
+        {
+            ArrayList<Process> arr = new ArrayList<>();
+            arr.add(cpu.getCores()[i].getCurrentProcess());
+            TableView t = (TableView) coreTabPane.getTabs().get(i).getContent();
+            t.setItems(FXCollections.observableArrayList(arr));
+        }
+
+        udateLabel(q,tick);
+
     }
+
+    public void udateLabel(Queue q, int tick)
+    {
+        Platform.runLater(() -> {
+            tickLabel.setText(String.valueOf(tick));
+    queueLabel.setText(String.valueOf(q.getPID()));
+    rejectedLabel.setText(String.valueOf(q.getRejectedQueue().size()));
+        });
+    }
+
+    public void udateLabel()
+    {
+        Platform.runLater(() -> {
+            tickLabel.setText(String.valueOf(0));
+            queueLabel.setText(String.valueOf(0));
+            rejectedLabel.setText(String.valueOf(0));
+        });
+    }
+    public void updateCoreTabs()
+    {
+        for(int i=0; i< Configuration.coreCount;i++)
+        {
+            TableView<Process> p= new TableView<>();
+            p.getColumns().setAll(genQTable());
+
+            p.getColumns().setAll(genQTable());
+            coreTabPane.getTabs().add(new Tab("Core#"+i));
+            coreTabPane.getTabs().get(i).setContent(p);
+        }
+    }
+
 
 
  /*Buttons*/
@@ -156,9 +205,12 @@ public class Controller {
         MemScheduler.clearMem();
         Ticker.clearTime();
         Main.emuThread = new Thread(new TLauncher());
+        coreTabPane.getTabs().clear();
         queueTable.setItems(null);
         rejectedTable.setItems(null);
         doneTable.setItems(null);
+
+        udateLabel();
 
         resetBTN.setDisable(true);
         configBTN.setDisable(false);
@@ -166,13 +218,25 @@ public class Controller {
         runBTN.setDisable(false);
     }
 
-
     @FXML
-    protected void configBTN_Click()
-    {
-
+    protected void configBTN_Click() throws IOException {
+        coreTabPane.getTabs().clear();
+        Parent loader = FXMLLoader.load(getClass().getResource("config.fxml"));
+        Stage newWindow = new Stage();
+        newWindow.setTitle("VTaskViewer");
+        newWindow.setScene(new Scene(loader, 300, 300));
+        newWindow.show();
+        newWindow.setResizable(false);
+        newWindow.setOnCloseRequest(Event::consume);
     }
 
 
+    /*Labels*/
+    @FXML
+    Label tickLabel;
+    @FXML
+    Label queueLabel;
+    @FXML
+    Label rejectedLabel;
 
 }

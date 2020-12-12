@@ -55,9 +55,11 @@ public class Scheduler implements TickListener {
 
     private void addJob()
     {
-        if(Randomize.getRandBool(Configuration.getRandBoolEveryTick)) {
+        if(Randomize.getRandBool()) {
             queue.Add(Randomize.getRandInt(Configuration.minValue));
         }
+
+        //TODO:SORT_BY_ID
         updateTable();
     }
 
@@ -98,7 +100,7 @@ public class Scheduler implements TickListener {
     }
 
     public void updateTable()
-    {Main.controller.updateTable(queue,doneProcesses);}
+    {Main.controller.updateGUI(queue,doneProcesses,Ticker.getTick(),cpu);}
 
     @Override
     public void tickEvent() {

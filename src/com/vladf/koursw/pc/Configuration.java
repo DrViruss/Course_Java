@@ -3,7 +3,7 @@ package com.vladf.koursw.pc;
 public class Configuration {
 
             /*PC Configuration*/
-    public static final int coreCount = 2;
+    public static int coreCount = 2;
     public static int memory = 2048;
 
 
@@ -19,7 +19,6 @@ public class Configuration {
      * Remove old Processes every 'N' tick
      */
     public static int rmOldPIterator = 2;
-    public static int getRandBoolEveryTick=4;
 
 
 

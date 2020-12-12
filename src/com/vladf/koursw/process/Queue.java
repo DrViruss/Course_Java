@@ -45,6 +45,10 @@ public class Queue {
         }
     }
 
+    public int getPID() {
+        return PID;
+    }
+
     public void Remove(Process process)
     {
         queue.remove(process);
@@ -64,6 +68,8 @@ public class Queue {
         process.setStatus(Status.Canceled);
         rejectedQueue.add(process);
     }
+
+
 
     public ArrayList<Process> getQueue() {
         return queue;
