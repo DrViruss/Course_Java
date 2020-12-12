@@ -70,6 +70,8 @@ updateCoreTabs();
         timeInColumn.setCellValueFactory(new PropertyValueFactory<>("timeIn"));
         burstColumn.setCellValueFactory(new PropertyValueFactory<>("bursTime"));
 
+
+        statusColumn.setVisible(false);
         priorColumn.setVisible(false);
         tickColumn.setVisible(false);
         memColumn.setVisible(false);
@@ -138,7 +140,8 @@ updateCoreTabs();
         {
             TableView<Process> p= new TableView<>();
             p.getColumns().setAll(genQTable());
-
+            p.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
+            p.setTableMenuButtonVisible(true);
             p.getColumns().setAll(genQTable());
             coreTabPane.getTabs().add(new Tab("Core#"+i));
             coreTabPane.getTabs().get(i).setContent(p);
