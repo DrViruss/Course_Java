@@ -59,7 +59,7 @@ public class Scheduler implements TickListener {
             queue.Add(Randomize.getRandInt(Configuration.minValue));
         }
 
-        //TODO:SORT_BY_ID
+        queue.getQueue().sort(Process.byID);
         updateTable();
     }
 

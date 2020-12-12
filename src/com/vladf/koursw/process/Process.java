@@ -71,6 +71,7 @@ public class Process {
 
 
     public static Comparator<Process> byTime = Comparator.comparingInt(o -> o.tickWorks);
+    public static Comparator<Process> byID = Comparator.comparingInt(o -> o.id);
 
     //________toString________\\
 

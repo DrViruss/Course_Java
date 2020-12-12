@@ -30,7 +30,6 @@ public class ConfigController {
         tpsTB.setText(String.valueOf(Configuration.tickIncrement));
         startP_TB.setText(String.valueOf(Configuration.initPCount));
         loggerCB.setSelected(Configuration.logger);
-        //TODO: LOAD Info From PATTERN__!!!
 
         coreTB.setTextFormatter(new TextFormatter<Number>(this::numberFilter));
         coreTB.setOnAction(event -> validateNumberField(coreTB, 1, 100, 4));
