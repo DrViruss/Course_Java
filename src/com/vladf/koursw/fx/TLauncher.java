@@ -9,7 +9,11 @@ public class TLauncher implements Runnable {
     public void run() {
         sc = new Scheduler();
         sc.Start();
-
     }
+
+//    public void LaunchMinecraft()
+//    {
+//
+//    }
 
 }
